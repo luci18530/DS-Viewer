@@ -1,8 +1,6 @@
 # A program to create visualizations of the data structures (linked lists, sequential lists, stacks, queues, binary search trees) 
-import sys
-import os
-import time
-import random
+# PROJETO DE ESTRUTURA DE DADOS
+# Grupo: Guilherme Nogueira, Luciano Pereira, Pedro Lucas, Thais Melquiades, Vitoria Grisi
 import pygame
 
 
@@ -190,6 +188,10 @@ class Button:
         self.rect.topleft = (x, y)
         self.width = width
         self.height = height
+        # resize image according to width and height and resize the area of collision
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+        self.rect = pygame.Rect(x, y, self.width, self.height)
+
 
     def draw(self, surface):
         action = False
@@ -218,21 +220,33 @@ running = True
 altura = 720
 largura = 1280
 screen = pygame.display.set_mode((largura, altura))
-# load button sair.png
+# load the buttons images 
 button_sair = pygame.image.load('button_sair.png').convert_alpha()
 button_teste = pygame.image.load('button_teste.png').convert_alpha()
+button_lista = pygame.image.load('button_lista.png').convert_alpha()
+button_fila = pygame.image.load('button_fila.png').convert_alpha()
+button_pilha = pygame.image.load('button_pilha.png').convert_alpha()
+button_arvore = pygame.image.load('button_arvore.png').convert_alpha()
 pygame.display.set_caption('Projeto de Estrutura de Dados')
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    #screen.fill(BLACK)
+    
     pygame.display.flip()
     # draw button sair.png using the Button class
-    if Button(button_sair, largura-200, altura-200, 100, 50).draw(screen):
+    if Button(button_sair, largura-200, altura-200, 130, 60).draw(screen):
         running = False
-    if Button(button_teste, largura-200, altura-300, 100, 50).draw(screen):
+    if Button(button_teste, largura-200, altura-300, 135, 60).draw(screen):
         print('testei')
+    if Button(button_lista, 10, 10, 200, 70).draw(screen):
+        print('lista')
+    if Button(button_fila, 10, 90, 200, 70).draw(screen):
+        print('fila')
+    if Button(button_pilha, 10, 170, 200, 70).draw(screen):
+        print('pilha')
+    if Button(button_arvore, 10, 250, 200, 70).draw(screen):
+        print('arvore')
 
     
     pygame.display.update()
