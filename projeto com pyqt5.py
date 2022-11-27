@@ -5,6 +5,7 @@ import PyQt5
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from PyQt5.Qt import *
 import sys
 
 
@@ -155,6 +156,8 @@ class Node:
     def __repr__(self):
         return str(self.data)
 
+liste = LinkedList()
+
 class janelalista(QWidget):
     def __init__(self):
         super().__init__()
@@ -163,8 +166,8 @@ class janelalista(QWidget):
         labellista.setText("Lista Encadeada")
         labellista.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
         labellista.move(10, 10)
-        lista = LinkedList()
-        input = ''
+        
+        
         self.inputlista()
         self.initUI()
         
@@ -172,9 +175,47 @@ class janelalista(QWidget):
         self.setGeometry(10, 30, 1050, 700)
         self.setWindowTitle('Lista Encadeada')
         self.show()
+    
+    
 
     def inputlista(self):
+        blalala = 1
         # user input
+        entrada = QLineEdit(self)
+        entrada.move(10, 40)
+        entrada.resize(200, 20)
+        # set text color to white
+        entrada.setStyleSheet("color: white;")
+        # set placeholder text
+        entrada.setPlaceholderText("Digite um valor")
+        # set text changed event
+        entrada.textChanged.connect(self.onchanged)
+        
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Insert:
+            
+            print("Insert")
+            textoparainput = self.findChild(QLineEdit).text()
+            # add to list
+            liste.add(textoparainput)
+            print(liste)
+
+    def test_method(self):
+        print('Space key pressed')
+
+        
+
+    def addlist(self):
+        # add value to linked list
+        liste.add(self.text)
+        # clear text
+        
+
+
+    def onchanged(self, text):
+        print(text)
+        
         blablabla = 1
 
         
@@ -255,7 +296,7 @@ class janelamain(QMainWindow):
     def arvoreclick(self):
         print('Arvore')
 
-
+textoparainput = ''
 application = PyQt5.QtWidgets.QApplication(sys.argv)
 janela = janelamain()
 sys.exit(application.exec_())
