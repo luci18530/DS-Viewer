@@ -171,10 +171,21 @@ class janelalista(QWidget):
         labelentrada.setText("Adicionar elemento")
         labelentrada.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
         labelentrada.move(10, 70)
+
+        
+
             
         self.inputlista()
         self.inputlistaposition()
         self.removedalista()
+
+        # add button
+        addbutton = QPushButton('Adicionar a Lista', self)
+        addbutton.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        addbutton.move(570, 500)
+        addbutton.resize(250, 30)
+        addbutton.clicked.connect(self.addbutton_clicked)
+
         self.initUI()
         
     def initUI(self):
@@ -219,6 +230,16 @@ class janelalista(QWidget):
         entradaremove.setPlaceholderText("Digite o valor a remover")
         # set text changed event
         entradaremove.textChanged.connect(self.onchanged)
+
+    def addbutton_clicked(self):
+        print("add button clicked")
+        textoparainput = self.findChild(QLineEdit, 'entrada').text()
+        posicao = self.findChild(QLineEdit, 'entradaposicao').text()
+        print("teste")
+        liste.insert(int(posicao), textoparainput)
+        print(liste)
+        print("posicao =", posicao)
+        #self.update()
         
 
     def keyPressEvent(self, e):
