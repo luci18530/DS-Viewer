@@ -170,20 +170,24 @@ class janelalista(QWidget):
         labelentrada = QLabel(self)
         labelentrada.setText("Adicionar elemento")
         labelentrada.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelentrada.move(10, 70)
+        labelentrada.move(10, 40)
 
-        
-
-            
+        labelremover = QLabel(self)
+        labelremover.setText("Remover elemento")
+        labelremover.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelremover.move(460, 40)
+  
         self.inputlista()
         self.inputlistaposition()
+        self.removedalistabutton()
         self.removedalista()
+        self.removedalistaposicao()
 
         # add button
-        addbutton = QPushButton('Adicionar a Lista', self)
+        addbutton = QPushButton('Adicionar', self)
         addbutton.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        addbutton.move(570, 500)
-        addbutton.resize(250, 30)
+        addbutton.move(320, 50)
+        addbutton.resize(100, 30)
         addbutton.clicked.connect(self.addbutton_clicked)
 
         self.initUI()
@@ -193,53 +197,94 @@ class janelalista(QWidget):
         self.setWindowTitle('Lista Encadeada')
         self.show()
     
-    
-
     def inputlista(self):
         entrada = QLineEdit(self)
-        entrada.move(10, 40)
+        entrada.move(10, 60)
         entrada.resize(200, 20)
         entrada.setObjectName("entrada")
-        # set text color to white
         entrada.setStyleSheet("color: white;")
-        # set placeholder text
         entrada.setPlaceholderText("Digite um valor")
-        # set text changed event
-        entrada.textChanged.connect(self.onchanged)
+        entrada.textChanged.connect(self.onchanged) # Certifica que o texto foi alterado 
 
     def inputlistaposition(self):
         entradaposicao = QLineEdit(self)
-        entradaposicao.move(220, 40)
+        entradaposicao.move(220, 60)
         entradaposicao.resize(81, 20)
         entradaposicao.setObjectName("entradaposicao")
-        # set text color to white
         entradaposicao.setStyleSheet("color: white;")
-        # set placeholder text
         entradaposicao.setPlaceholderText("Digite a posição")
-        # set text changed event
         entradaposicao.textChanged.connect(self.onchanged)
+
+    # now create a button for remotion (red color with white text)
+    def removedalistabutton(self):
+        removedalistabutton = QPushButton('Remover', self)
+        removedalistabutton.setStyleSheet("background-color: #FF0000; color: white; font-size: 15px; font-weight: bold;")
+        removedalistabutton.move(780, 50)
+        removedalistabutton.resize(100, 30)
+        removedalistabutton.clicked.connect(self.removedalistabutton_clicked)
 
     def removedalista(self):
         entradaremove = QLineEdit(self)
-        entradaremove.move(500, 40)
+        entradaremove.move(460, 60)
         entradaremove.resize(200, 20)
         entradaremove.setObjectName("entradaremove")
-        # set text color to white
         entradaremove.setStyleSheet("color: white;")
-        # set placeholder text
         entradaremove.setPlaceholderText("Digite o valor a remover")
-        # set text changed event
         entradaremove.textChanged.connect(self.onchanged)
+
+    def removedalistaposicao(self):
+        entradaremoveposicao = QLineEdit(self)
+        entradaremoveposicao.move(670, 60)
+        entradaremoveposicao.resize(95, 20)
+        entradaremoveposicao.setObjectName("entradaremoveposicao")
+        entradaremoveposicao.setStyleSheet("color: white;")
+        entradaremoveposicao.setPlaceholderText("Posição a remover")
+        entradaremoveposicao.textChanged.connect(self.onchanged)
 
     def addbutton_clicked(self):
         print("add button clicked")
+
         textoparainput = self.findChild(QLineEdit, 'entrada').text()
+        # if there is no text in the input, do nothing
+        if textoparainput == "":
+            return
+
         posicao = self.findChild(QLineEdit, 'entradaposicao').text()
-        print("teste")
+        # if there is no text in the input, do nothing
+        if posicao == "":
+            return
+
+        # if position is not a number, do nothing
+        if not posicao.isnumeric():
+            return
+
         liste.insert(int(posicao), textoparainput)
         print(liste)
         print("posicao =", posicao)
-        #self.update()
+
+    def removedalistabutton_clicked(self):
+        print("remove button clicked")
+        textoparainput = self.findChild(QLineEdit, 'entradaremove').text()
+        posicaoremover = self.findChild(QLineEdit, 'entradaremoveposicao').text()
+        # if there is no text in the input, do nothing
+        if textoparainput == "" and posicaoremover == "":
+            return
+        elif textoparainput != "" and posicaoremover != "":
+            return
+        elif textoparainput != "":
+            liste.remove(textoparainput)
+        elif posicaoremover != "":
+            print(liste.size())
+            # if the position is not a number, do nothing
+            if not posicaoremover.isnumeric():
+                return
+            # if the position is not in the list, do nothing
+            if int(posicaoremover) >= liste.size():
+                return
+            print(posicaoremover)
+            liste.pop(int(posicaoremover))
+            print(liste)
+        
         
 
     def keyPressEvent(self, e):
@@ -257,24 +302,9 @@ class janelalista(QWidget):
             textopararemove = self.findChild(QLineEdit, "entradaremove").text()
             liste.remove(textopararemove)
             print(liste)
-            
-
-    def test_method(self):
-        print('Space key pressed')
-
-        
-
-    def addlist(self):
-        # add value to linked list
-        liste.add(self.text)
-        # clear text
-        
-
-
+  
     def onchanged(self, text):
         print(text)
-        
-        blablabla = 1
 
         
 class janelamain(QMainWindow):
