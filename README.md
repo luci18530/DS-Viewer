@@ -5,5 +5,6 @@ Grupo : Guilherme Nogueira, Luciano Pereira, Pedro Lucas, Thais Melquiades, Vito
 
 # TODO
 
-Listas : Box para selecionar posição, botão de add (ao inves de usar insert), elementos visuais da lista (maybe um for que ponha botoes representando o conteudo, e imagens de setas)
-Filas Pilhas Arvores = A ser pensado
+Listas : Elementos visuais da lista (maybe um for que ponha botoes representando o conteudo, e imagens de setas)
+Filas Pilhas -> Copiar parte estatica de lista (substituindo pelas funções adequadas pra cada tipo) e elemento visual dinâmico 
+Arvores = A ser pensado
