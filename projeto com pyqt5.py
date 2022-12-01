@@ -33,8 +33,10 @@ class LinkedList:
     def add(self, item):
         self.items.append(item)
 
+    # def remove, if value is not in the list, do nothing
     def remove(self, item):
-        self.items.remove(item)
+        if item in self.items:
+            self.items.remove(item)
 
     def search(self, item):
         return item in self.items
@@ -281,10 +283,8 @@ class janelalista(QWidget):
 
         liste.insert(int(posicao), textoparainput)
 
-        # delete the list of buttons (refresh)
-        #button.deleteLater()
         button = []
-        #button[i].deleteLater()
+
         
         for i in range(liste.size()):       
             # create a list of buttons (SERVE PRA PILHA E FILA, LISTA É FEIO) SIMBORAAAAAAAA           
@@ -300,10 +300,9 @@ class janelalista(QWidget):
     def imageblackbmp(self):
         imageblack = QLabel(self)
         imageblack.setPixmap(QPixmap("black.bmp"))
-        imageblack.move(10, 100)
-        imageblack.resize(500, 500)
+        imageblack.move(10, 200)
+        imageblack.resize(600, 600)
         imageblack.show()
-
 
     def removedalistabutton_clicked(self):
         print("remove button clicked")
@@ -311,12 +310,32 @@ class janelalista(QWidget):
         posicaoremover = self.findChild(QLineEdit, 'entradaremoveposicao').text()
         # if there is no text in the input, do nothing
         if textoparainput == "" and posicaoremover == "":
+            print("nenhum valor digitado")
             return
-        elif textoparainput != "" and posicaoremover != "":
+        if textoparainput != "" and posicaoremover != "":
+            print("digite apenas um valor")
             return
-        elif textoparainput != "":
+        if textoparainput != "" and posicaoremover == "":
+            print("removendo por valor")
+
             liste.remove(textoparainput)
-        elif posicaoremover != "":
+            print("tam lista ",liste.size())
+            self.imageblackbmp()
+
+            for i in range(liste.size()):       
+            # create a list of buttons (SERVE PRA PILHA E FILA, LISTA É FEIO) SIMBORAAAAAAAA
+                
+                
+                button = QPushButton(str(liste.get(i)), self)
+                # set id for each button
+                button.setObjectName(str(i))
+                button.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+                button.move(10 + i * 50, 400)  
+                button.resize(50, 30)
+                button.show()
+
+        if posicaoremover != "" and textoparainput == "":
+            print("removendo por posição")
             print(liste.size())
             # if the position is not a number, do nothing
             if not posicaoremover.isnumeric():
@@ -327,20 +346,12 @@ class janelalista(QWidget):
             print(posicaoremover)
             liste.pop(int(posicaoremover))
 
-            # delete the list of buttons using object name(refresh)
-            #button.deleteLater()
-            #button[i].deleteLater()
-
-            # if list size is above 1, do refresh
-            if liste.size() > 1:
-                self.imageblackbmp()
+            self.imageblackbmp()
 
             for i in range(liste.size()):       
             # create a list of buttons (SERVE PRA PILHA E FILA, LISTA É FEIO) SIMBORAAAAAAAA
                 # LOAD IMAGE
                 print("i =", i)
-                
-
 
                 button = QPushButton(str(liste.get(i)), self)
                 # set id for each button
@@ -350,11 +361,8 @@ class janelalista(QWidget):
                 button.resize(50, 30)
                 button.show()
 
-
             print(liste)
 
-        
-        
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Insert:
@@ -441,10 +449,6 @@ class janelamain(QMainWindow):
         exit_button.resize(50, 40)
         exit_button.setStyleSheet("background-color: red; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         exit_button.clicked.connect(self.close)
-        # remove exit button from the window
-        
-
-        
 
         self.label1()
         self.lista()
@@ -476,7 +480,6 @@ class janelamain(QMainWindow):
     def listaclick(self):
         print('Lista Encadeada')
         self.lista = janelalista()
-  
 
     def pilha(self):
         pilha_button = QPushButton('Pilha', self)
@@ -494,10 +497,6 @@ class janelamain(QMainWindow):
         fila_button.resize(200, 40)
         fila_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         fila_button.clicked.connect(self.filaclick)
-        # set id of the button
-        #fila_button.setObjectName("fila_button")
-        
-        #fila_button.deleteLater()
 
     def filaclick(self):
         print('Fila')
