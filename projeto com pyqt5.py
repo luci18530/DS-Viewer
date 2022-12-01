@@ -53,6 +53,9 @@ class LinkedList:
     
     def __repr__(self):
         return str(self.items)
+    # get a value from the list by index
+    def get(self, index):
+        return self.items[index]
     
     
 # FILAS | QUEUES
@@ -176,12 +179,24 @@ class janelalista(QWidget):
         labelremover.setText("Remover elemento")
         labelremover.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
         labelremover.move(460, 40)
+
+        
+
+
+        painter = QPainter(self)
+        painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
+        painter.drawRect(0,300, 900, 400)
+        painter.end()
+
   
         self.inputlista()
+        
         self.inputlistaposition()
         self.removedalistabutton()
         self.removedalista()
         self.removedalistaposicao()
+
+        
 
         # add button
         addbutton = QPushButton('Adicionar', self)
@@ -196,6 +211,12 @@ class janelalista(QWidget):
         self.setGeometry(10, 30, 1050, 700)
         self.setWindowTitle('Lista Encadeada')
         self.show()
+
+    def labelseta(self,x,y): # UNICODE U+2794
+        labelseta = QLabel(self)
+        labelseta.setText("➔")
+        labelseta.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelseta.move(x, y)
     
     def inputlista(self):
         entrada = QLineEdit(self)
@@ -259,8 +280,30 @@ class janelalista(QWidget):
             return
 
         liste.insert(int(posicao), textoparainput)
+
+        # delete the list of buttons (refresh)
+        #button.deleteLater()
+        button = []
+        #button[i].deleteLater()
+        
+        for i in range(liste.size()):       
+            # create a list of buttons (SERVE PRA PILHA E FILA, LISTA É FEIO) SIMBORAAAAAAAA           
+            button = QPushButton(str(liste.get(i)), self)
+            button.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+            button.move(10 + i * 50, 400)  
+            button.resize(50, 30)
+            button.show()
+
         print(liste)
         print("posicao =", posicao)
+
+    def imageblackbmp(self):
+        imageblack = QLabel(self)
+        imageblack.setPixmap(QPixmap("black.bmp"))
+        imageblack.move(10, 100)
+        imageblack.resize(500, 500)
+        imageblack.show()
+
 
     def removedalistabutton_clicked(self):
         print("remove button clicked")
@@ -283,7 +326,33 @@ class janelalista(QWidget):
                 return
             print(posicaoremover)
             liste.pop(int(posicaoremover))
+
+            # delete the list of buttons using object name(refresh)
+            #button.deleteLater()
+            #button[i].deleteLater()
+
+            # if list size is above 1, do refresh
+            if liste.size() > 1:
+                self.imageblackbmp()
+
+            for i in range(liste.size()):       
+            # create a list of buttons (SERVE PRA PILHA E FILA, LISTA É FEIO) SIMBORAAAAAAAA
+                # LOAD IMAGE
+                print("i =", i)
+                
+
+
+                button = QPushButton(str(liste.get(i)), self)
+                # set id for each button
+                button.setObjectName(str(i))
+                button.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+                button.move(10 + i * 50, 400)  
+                button.resize(50, 30)
+                button.show()
+
+
             print(liste)
+
         
         
 
@@ -306,6 +375,56 @@ class janelalista(QWidget):
     def onchanged(self, text):
         print(text)
 
+class janelafila(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setStyleSheet("background-color: black;")
+        labelfila = QLabel(self)
+        labelfila.setText("Fila")
+        labelfila.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelfila.move(10, 10)
+
+        labelenfileirar = QLabel(self)
+        labelenfileirar.setText("Enfileirar elemento")
+        labelenfileirar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelenfileirar.move(10, 40)
+
+        labeldesenfileirar = QLabel(self)
+        labeldesenfileirar.setText("Desenfileirar elemento")
+        labeldesenfileirar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labeldesenfileirar.move(460, 40)
+
+        enqueuebutton = QPushButton('Enfileirar', self)
+        enqueuebutton.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        enqueuebutton.move(320, 50)
+        enqueuebutton.resize(100, 30)
+        enqueuebutton.clicked.connect(self.enqueuebutton_clicked)
+        self.inputfila()
+        self.initUI()
+        
+    def initUI(self):
+        self.setGeometry(10, 30, 1050, 700)
+        self.setWindowTitle('Fila')
+        self.show()
+
+    def inputfila(self):
+        entradafila = QLineEdit(self)
+        entradafila.move(10, 60)
+        entradafila.resize(300, 20)
+        entradafila.setObjectName("entradafila")
+        entradafila.setStyleSheet("color: white;")
+        entradafila.setPlaceholderText("Digite o valor")
+        
+    def enqueuebutton_clicked(self):
+        print("enqueue button clicked")
+        textoparainputfila = self.findChild(QLineEdit, 'entradafila').text()
+        # if there is no text in the input, do nothing
+        if textoparainputfila == "":
+            return
+
+        fila.enqueue(textoparainputfila)
+        print(fila)
+
         
 class janelamain(QMainWindow):
     def __init__(self):
@@ -322,6 +441,11 @@ class janelamain(QMainWindow):
         exit_button.resize(50, 40)
         exit_button.setStyleSheet("background-color: red; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         exit_button.clicked.connect(self.close)
+        # remove exit button from the window
+        
+
+        
+
         self.label1()
         self.lista()
         self.pilha()
@@ -370,9 +494,15 @@ class janelamain(QMainWindow):
         fila_button.resize(200, 40)
         fila_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         fila_button.clicked.connect(self.filaclick)
+        # set id of the button
+        #fila_button.setObjectName("fila_button")
+        
+        #fila_button.deleteLater()
 
     def filaclick(self):
         print('Fila')
+        print(self.objectName())
+        self.fila = janelafila()
 
     def arvore(self):
         arvore_button = QPushButton('Arvore', self)
@@ -386,6 +516,7 @@ class janelamain(QMainWindow):
 
 textoparainput = ''
 posicao = 0
+fila = []
 application = PyQt5.QtWidgets.QApplication(sys.argv)
 janela = janelamain()
 sys.exit(application.exec_())
