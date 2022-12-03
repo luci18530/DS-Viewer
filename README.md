@@ -5,5 +5,6 @@ Grupo : Guilherme Nogueira, Luciano Pereira, Pedro Lucas, Thais Melquiades, Vito
 
 # TODO
 
-Listas : Box para selecionar posição, botão de add (ao inves de usar insert), elementos visuais da lista (maybe um for que ponha botoes representando o conteudo, e imagens de setas)
-Filas Pilhas Arvores = A ser pensado
+Listas OK
+Filas OK
+Pilhas e Arvores = TODO
