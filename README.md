@@ -5,6 +5,6 @@ Grupo : Guilherme Nogueira, Luciano Pereira, Pedro Lucas, Thais Melquiades, Vito
 
 # TODO
 
-Listas : Elementos visuais da lista (maybe um for que ponha botoes representando o conteudo, e imagens de setas)
-Filas Pilhas -> Copiar parte estatica de lista (substituindo pelas funções adequadas pra cada tipo) e elemento visual dinâmico 
-Arvores = A ser pensado
+Listas OK
+Filas OK
+Pilhas e Arvores = TODO
