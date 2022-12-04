@@ -59,6 +59,12 @@ class LinkedList:
     # get a value from the list by index
     def get(self, index):
         return self.items[index]
+
+    def searchandmatch(self, item):
+        if item in self.items:
+            return self.items.index(item)
+        else:
+            return -1
     
     
 # FILAS | QUEUES
@@ -81,7 +87,9 @@ class Queue:
         return len(self.items)
 
     def get(self, index):
-        return self.items[index]
+        # if the queue is not empty, return the element at the index
+        if not self.isEmpty():
+            return self.items[index]
 
     def __str__(self):
         return str(self.items)
@@ -101,7 +109,9 @@ class Stack:
         self.items.append(item)
 
     def pop(self):
-        return self.items.pop()
+        # if the stack is not empty, remove the last element
+        if not self.isEmpty():
+            return self.items.pop()
 
     def peek(self):
         return self.items[len(self.items)-1]
@@ -116,56 +126,225 @@ class Stack:
         return str(self.items)
 
 # ARVORE BINARIA DE BUSCA | BINARY SEARCH TREE
-class Node:
+class Node(object):
     def __init__(self, data):
-        self.left = None
-        self.right = None
         self.data = data
+        self.leftChild = None
+        self.rightChild = None
 
     def insert(self, data):
+        ''' For inserting the node '''
         if self.data:
             if data < self.data:
-                if self.left is None:
-                    self.left = Node(data)
+                if self.leftChild is None:
+                    self.leftChild = Node(data)
                 else:
-                    self.left.insert(data)
+                    self.leftChild.insert(data)
             elif data > self.data:
-                if self.right is None:
-                    self.right = Node(data)
+                if self.rightChild is None:
+                    self.rightChild = Node(data)
                 else:
-                    self.right.insert(data)
+                    self.rightChild.insert(data)
         else:
             self.data = data
 
-    def findval(self, lkpval):
-        if lkpval < self.data:
-            if self.left is None:
-                return str(lkpval)+" Not Found"
-            return self.left.findval(lkpval)
-        elif lkpval > self.data:
-            if self.right is None:
-                return str(lkpval)+" Not Found"
-            return self.right.findval(lkpval)
+        
+
+    def minValueNode(self, node):
+        current = node
+
+        # loop down to find the leftmost leaf
+        while(current.leftChild is not None):
+            current = current.leftChild
+
+        return current
+
+    def maxValueNode(self, node):
+        current = node
+
+        # loop down to find the leftmost leaf
+        while(current.rightChild is not None):
+            current = current.rightChild
+
+        return current
+
+
+    def delete(self, data,root):
+        ''' For deleting the node '''
+        if self is None:
+            return None
+
+        # if current node's data is less than that of root node, then only search in left subtree else right subtree
+        if data < self.data:
+            self.leftChild = self.leftChild.delete(data,root)
+        elif data > self.data:
+            self.rightChild = self.rightChild.delete(data,root)
         else:
-            return str(self.data) + ' is found'
+            # deleting node with one child
+            if self.leftChild is None:
 
-    
+                if self == root:
+                    temp = self.minValueNode(self.rightChild)
+                    self.data = temp.data
+                    self.rightChild = self.rightChild.delete(temp.data,root) 
 
-    # PRINT TREE WITH LINES
-    def print_tree(self, level=0):
-        if self.right:
-            self.right.print_tree(level+1)
-            print('\t' * level,'/', sep='')
-        print('\t' * level, self.data)
-        if self.left:
-            print('\t' * level,'\\', sep='')
-            self.left.print_tree(level+1)
+                temp = self.rightChild
+                self = None
+                return temp
+            elif self.rightChild is None:
+
+                if self == root:
+                    temp = self.maxValueNode(self.leftChild)
+                    self.data = temp.data
+                    self.leftChild = self.leftChild.delete(temp.data,root) 
+
+                temp = self.leftChild
+                self = None
+                return temp
+
+            # deleting node with two children
+            # first get the inorder successor
+            temp = self.minValueNode(self.rightChild)
+            self.data = temp.data
+            self.rightChild = self.rightChild.delete(temp.data,root)
+
+        return self
+
+    def find(self, data):
+        ''' This function checks whether the specified data is in tree or not '''
+        if(data == self.data):
+            return True
+        elif(data < self.data):
+            if self.leftChild:
+                return self.leftChild.find(data)
+            else:
+                return False
+        else:
+            if self.rightChild:
+                return self.rightChild.find(data)
+            else:
+                return False
+
+    def preorder(self):
+        '''For preorder traversal of the BST '''
+        if self:
+            print(str(self.data), end = ' ')
+            if self.leftChild:
+                self.leftChild.preorder()
+            if self.rightChild:
+                self.rightChild.preorder()
+
+    def inorder(self):
+        ''' For Inorder traversal of the BST '''
+        if self:
+            if self.leftChild:
+                self.leftChild.inorder()
+            print(str(self.data), end = ' ')
+            if self.rightChild:
+                self.rightChild.inorder()
+
+    def postorder(self):
+        ''' For postorder traversal of the BST '''
+        if self:
+            if self.leftChild:
+                self.leftChild.postorder()
+            if self.rightChild:
+                self.rightChild.postorder()
+            print(str(self.data), end = ' ')
+
+    def size(self):
+        ''' For finding the size of the BST '''
+        if self is None:
+            return 0
+        else:
+            return self.leftChild.size() + 1 + self.rightChild.size()
+
+    def __str__(self) -> str:
+        return str(self.data)
+
+    def __repr__(self) -> str:
+        return str(self.data)
+
+        
+
+class Tree(object):
+    def __init__(self):
+        self.root = None
+        self.size = 0
+
+    def insert(self, data):
+        if self.root:
+            self.size = self.size + 1
+            return self.root.insert(data)
+        else:
+            self.root = Node(data)
+            self.size = self.size + 1
+            return True
+
+    def delete(self, data):
+        if self.root is not None:
+            return self.root.delete(data,self.root)
+
+    def find(self, data):
+        if self.root:
+            return self.root.find(data)
+        else:
+            return False
+
+    def preorder(self):
+        if self.root is not None:
+            print()
+            print('Preorder: ')
+            self.root.preorder()
+
+    def inorder(self):
+        print()
+        if self.root is not None:
+            print('Inorder: ')
+            self.root.inorder()
+
+    def postorder(self):
+        print()
+        if self.root is not None:
+            print('Postorder: ')
+            self.root.postorder()
 
     def __str__(self):
-        return str(self.data)
-    
+        return str(self.root)
+
     def __repr__(self):
-        return str(self.data)
+        return str(self.root)
+
+        
+
+    def size (self):
+        if self.root is not None:
+            return self.root.size()
+
+    def treeprint(self):
+        if self.root is not None:
+            return self.printTree(self.root)
+
+    def printTree(self, currentnode, level = 0, position = None):
+        if currentnode is not None:
+            
+            self.printTree(currentnode.rightChild, level + 1, 'R')
+            if position == 'R':
+                print('    ' * level, ' / ', currentnode.data)
+            elif position == 'L':
+                print('    ' * level, ' \\ ', currentnode.data)
+            else:
+                print(currentnode.data)
+            self.printTree(currentnode.leftChild, level + 1, 'L')
+            
+            
+        
+
+
+    
+    
+        
+
 
 liste = LinkedList()
 # LISTA LISTA LISTA LISTA
@@ -188,12 +367,14 @@ class janelalista(QWidget):
         labelremover.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
         labelremover.move(460, 40)
 
-        painter = QPainter(self)
-        painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
-        painter.drawRect(0,300, 900, 400)
-        painter.end()
+        labelconsutar = QLabel(self)
+        labelconsutar.setText("Consultar elemento")
+        labelconsutar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelconsutar.move(10, 90)
 
-        self.inputlista()       
+        self.inputlista()
+        self.consultarlista()
+        #self.inputconsultar()   
         self.inputlistaposition()
         self.removedalistabutton()
         self.removedalista()
@@ -212,6 +393,43 @@ class janelalista(QWidget):
         self.setGeometry(10, 30, 1050, 700)
         self.setWindowTitle('Lista Encadeada')
         self.show()
+
+    def consultarlista(self):
+        self.consultarlista = QLineEdit(self)
+        self.consultarlista.move(10, 120)
+        self.consultarlista.resize(200, 20)
+        self.consultarlista.setObjectName("consultarlista")
+        self.consultarlista.setStyleSheet("background-color: black; color: white; font-size: 15px; font-weight: bold;")
+        self.consultarlista.setPlaceholderText("Digite o elemento a ser consultado")
+
+        buttonconsultar = QPushButton('Consultar', self)
+        buttonconsultar.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttonconsultar.move(220, 120)
+        buttonconsultar.resize(100, 20)
+        buttonconsultar.clicked.connect(self.buttonconsultar_clicked)
+
+    def buttonconsultar_clicked(self):
+        print('Consultar')
+        self.consultarlista = self.findChild(QLineEdit, 'consultarlista')
+        print(self.consultarlista.text())
+        estalanista = liste.searchandmatch(self.consultarlista.text())
+        print(estalanista)
+
+        # if the element is in the list show a message in the screen
+        if estalanista >= 0:
+            msg = QMessageBox()
+            msg.setWindowTitle("Elemento encontrado")
+            msg.setText("O elemento está na lista, na posição: "+str(liste.searchandmatch(self.consultarlista.text())))
+            msg.setIcon(QMessageBox.Information)
+            msg.exec_()
+
+        # if the element is not in the list show a message in the screen
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle("Elemento não encontrado")
+            msg.setText("O elemento não está na lista")
+            msg.setIcon(QMessageBox.Information)
+            msg.exec_()
 
     def inputlista(self):
         entrada = QLineEdit(self)
@@ -355,23 +573,6 @@ class janelalista(QWidget):
                 button.show()
 
             print(liste)
-
-
-    def keyPressEvent(self, e):
-        if e.key() == Qt.Key_Insert:
-            
-            print("Insert")
-            textoparainput = self.findChild(QLineEdit, "entrada").text()
-            posicao = self.findChild(QLineEdit, "entradaposicao").text()
-            liste.insert(int(posicao), textoparainput)
-            print(liste)
-            print("posicao =", posicao)
-
-        elif e.key() == Qt.Key_Control:
-            print("Delete")
-            textopararemove = self.findChild(QLineEdit, "entradaremove").text()
-            liste.remove(textopararemove)
-            print(liste)
   
     def onchanged(self, text):
         print(text)
@@ -390,6 +591,11 @@ class janelafila(QWidget):
         labelenfileirar.setText("Enfileirar elemento")
         labelenfileirar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
         labelenfileirar.move(10, 40)
+
+        labelprimeirofila = QLabel(self)
+        labelprimeirofila.setText("Primeiro da fila")
+        labelprimeirofila.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelprimeirofila.move(10, 500)
 
         enqueuebutton = QPushButton('Enfileirar', self)
         enqueuebutton.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
@@ -427,6 +633,7 @@ class janelafila(QWidget):
             return
 
         fila.enqueue(textoparainputfila)
+        lastelement = fila.get(fila.size() - 1)
         print(fila)
         for i in range (fila.size()):
             button = QPushButton(str(fila.get(i)), self)
@@ -436,6 +643,15 @@ class janelafila(QWidget):
             button.move(10 + i * 50, 400)  
             button.resize(50, 30)
             button.show()
+
+        # show a button that shows the first element of the queue 
+        button = QPushButton(str(lastelement), self)
+        button.setObjectName("primeirofila")
+        button.setStyleSheet("background-color: orange; color: white; font-size: 15px; font-weight: bold;")
+        button.move(10, 530)
+        button.resize(50, 30)
+        button.show()
+
 
     def dequeuebutton_clicked(self):
         print("dequeue button clicked")
@@ -451,12 +667,149 @@ class janelafila(QWidget):
             button.resize(50, 30)
             button.show()
 
+        lastelement = fila.get(fila.size() - 1)
+        print("checgou aqui")
+        labelprimeirofila = QLabel(self)
+        labelprimeirofila.setText("Primeiro da fila")
+        labelprimeirofila.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelprimeirofila.move(10, 500)
+        labelprimeirofila.show()
+
+        button = QPushButton(str(lastelement), self)
+        button.setObjectName("primeirofila")
+        button.setStyleSheet("background-color: orange; color: white; font-size: 15px; font-weight: bold;")
+        button.move(10, 530)
+        button.resize(50, 30)
+        button.show()
+
     def imageblackbmp(self):
         imageblack = QLabel(self)
         imageblack.setPixmap(QPixmap("black.bmp"))
         imageblack.move(10, 200)
         imageblack.resize(600, 600)
         imageblack.show()
+
+listadaarvore = []
+
+# ARVORE ARVORE ARVORE ARVORE ARVORE
+class janelaarvore(QWidget):
+    def __init__(self):
+        super().__init__()
+        arvore = Tree()
+        self.setStyleSheet("background-color: black;")
+        labelarvore = QLabel(self)
+        labelarvore.setText("Árvore")
+        labelarvore.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelarvore.move(10, 10)
+
+        labelinserir = QLabel(self)
+        labelinserir.setText("Inserir elemento")
+        labelinserir.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelinserir.move(10, 40)
+
+        self.inputarvore()
+
+        buttoninserir = QPushButton('Inserir', self)
+        buttoninserir.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttoninserir.move(320, 50)
+        buttoninserir.resize(100, 30)
+        buttoninserir.clicked.connect(self.buttoninserir_clicked)
+
+        labelremover = QLabel(self)
+        labelremover.setText("Remover elemento")
+        labelremover.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelremover.move(450, 40)
+
+        self.removedaarvore()
+
+        buttonremover = QPushButton('Remover', self)
+        buttonremover.setStyleSheet("background-color: red; color: white; font-size: 15px; font-weight: bold;")
+        buttonremover.move(730, 50)
+        buttonremover.resize(100, 30)
+
+        buttoninordem = QPushButton('In-ordem', self)
+        buttoninordem.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttoninordem.move(10, 90)
+        buttoninordem.resize(100, 30)
+
+        labelpesquisa = QLabel(self)
+        labelpesquisa.setText("Pesquisar elemento")
+        labelpesquisa.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelpesquisa.move(10, 130)
+
+        self.inputpesquisa()
+
+        buttonpesquisa = QPushButton('Pesquisar', self)
+        buttonpesquisa.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttonpesquisa.move(320, 140)
+        buttonpesquisa.resize(100, 30)
+
+        self.initUI()
+    
+    def initUI(self):
+        self.setGeometry(10, 30, 1050, 700)
+        self.setWindowTitle('Árvore')
+        self.show()
+
+    def inputarvore(self):
+        entradaarvore = QLineEdit(self)
+        entradaarvore.move(10, 60)
+        entradaarvore.resize(300, 20)
+        entradaarvore.setObjectName("entradaarvore")
+        entradaarvore.setStyleSheet("color: white;")
+        entradaarvore.setPlaceholderText("Digite o valor")
+
+    def inputpesquisa(self):
+        entradaarvore = QLineEdit(self)
+        entradaarvore.move(10, 150)
+        entradaarvore.resize(300, 20)
+        entradaarvore.setObjectName("entradaarvore")
+        entradaarvore.setStyleSheet("color: white;")
+        entradaarvore.setPlaceholderText("Digite o valor")
+
+    def removedaarvore(self):
+        removedaarvore = QLineEdit(self)
+        removedaarvore.move(450, 60)
+        removedaarvore.resize(270, 20)
+        removedaarvore.setObjectName("removedaarvore")
+        removedaarvore.setStyleSheet("color: white;")
+        removedaarvore.setPlaceholderText("Digite o valor")
+
+    def imageblackbmp(self):
+        imageblack = QLabel(self)
+        imageblack.setPixmap(QPixmap("black.bmp"))
+        imageblack.move(10, 200)
+        imageblack.resize(600, 600)
+        imageblack.show()
+
+    def buttoninserir_clicked(self):
+        entradaarvore = self.findChild(QLineEdit, "entradaarvore")
+        valor = entradaarvore.text()
+        listadaarvore.append(valor)
+        arvore.insert(valor)
+
+        print(listadaarvore)
+        # print the value of arvore in text
+        print(str(arvore.root))
+        # print size
+        print("size: ",arvore.size)
+        # TREE PRINTER
+        print("Tree:")
+        arvore.treeprint()
+
+        self.imageblackbmp()
+
+
+
+
+
+        
+
+    def printTreeinButton(self, level = 0):
+        # print all the elements in the arvore
+        gfg = 1
+
+
         
 class janelamain(QMainWindow):
     def __init__(self):
@@ -535,11 +888,14 @@ class janelamain(QMainWindow):
         arvore_button.clicked.connect(self.arvoreclick)
     
     def arvoreclick(self):
+        self.arvore = janelaarvore()
         print('Arvore')
 
 textoparainput = ''
 posicao = 0
 fila = Queue()
+pilha = Stack()
+arvore = Tree()
 application = PyQt5.QtWidgets.QApplication(sys.argv)
 janela = janelamain()
 sys.exit(application.exec_())
