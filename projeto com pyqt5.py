@@ -243,6 +243,7 @@ class Node(object):
             if self.rightChild:
                 self.rightChild.inorder()
 
+
     def postorder(self):
         ''' For postorder traversal of the BST '''
         if self:
@@ -259,6 +260,8 @@ class Node(object):
         else:
             return self.leftChild.size() + 1 + self.rightChild.size()
 
+    # Recursive method used to draw the tree in the GUI
+
     def __str__(self) -> str:
         return str(self.data)
 
@@ -271,6 +274,12 @@ class Tree(object):
     def __init__(self):
         self.root = None
         self.size = 0
+
+    def sort (self):
+        if self.root is None:
+            return []
+        else:
+            return self.root.recursive_sort([])
 
     def insert(self, data):
         if self.root:
@@ -315,27 +324,41 @@ class Tree(object):
     def __repr__(self):
         return str(self.root)
 
-        
-
     def size (self):
         if self.root is not None:
             return self.root.size()
 
-    def treeprint(self):
+    # tree print function, get the widget
+    def treeprint(self, widget):
         if self.root is not None:
-            return self.printTree(self.root)
+            return self.printTree(self.root, widget)
 
-    def printTree(self, currentnode, level = 0, position = None):
+    def printTree(self, currentnode, widget, level = 0, position = None):
         if currentnode is not None:
             
-            self.printTree(currentnode.rightChild, level + 1, 'R')
+            self.printTree(currentnode.rightChild, widget, level + 1, 'R')
             if position == 'R':
                 print('    ' * level, ' / ', currentnode.data)
+                buttonarvore = QPushButton(currentnode.data, widget)
+                buttonarvore.setStyleSheet("background-color: blue; color: white; font-size: 10px; font-weight: bold;")
+                buttonarvore.move(10 + level*50,350 - 200/(level+1))
+                buttonarvore.resize(50, 30)
+                buttonarvore.show()
             elif position == 'L':
                 print('    ' * level, ' \\ ', currentnode.data)
+                buttonarvore = QPushButton (currentnode.data, widget)
+                buttonarvore.setStyleSheet("background-color: blue; color: white; font-size: 10px; font-weight: bold;")
+                buttonarvore.move(10 + level*50,350 + 200/(level+1))
+                buttonarvore.resize(50, 30)
+                buttonarvore.show()
             else:
                 print(currentnode.data)
-            self.printTree(currentnode.leftChild, level + 1, 'L')
+                buttonarvore = QPushButton (currentnode.data , widget)
+                buttonarvore.setStyleSheet("background-color: blue; color: white; font-size: 10px; font-weight: bold;")
+                buttonarvore.move(10,350)
+                buttonarvore.resize(50, 30)
+                buttonarvore.show()
+            self.printTree(currentnode.leftChild, widget, level + 1, 'L')
             
             
         
@@ -787,7 +810,8 @@ class janelaarvore(QWidget):
         valor = entradaarvore.text()
         listadaarvore.append(valor)
         arvore.insert(valor)
-
+        # SORT LISTADAARVORE
+        #listadaarvore.sort()
         print(listadaarvore)
         # print the value of arvore in text
         print(str(arvore.root))
@@ -795,9 +819,69 @@ class janelaarvore(QWidget):
         print("size: ",arvore.size)
         # TREE PRINTER
         print("Tree:")
-        arvore.treeprint()
-
         self.imageblackbmp()
+
+        for i in range (0, len(listadaarvore)):
+            button = QPushButton(str(listadaarvore[i]), self)
+            button.setObjectName("arvore")
+            button.setStyleSheet("background-color: orange; color: white; font-size: 15px; font-weight: bold;")
+            # if value of i is 0, the button will be in the top of the tree
+            if i == 0:
+                button.move(500, 200)
+            # if value of i is 1, the button will be in the left of the tree
+            elif listadaarvore[i] < listadaarvore[i-1]:
+                button.move(300, 300)
+            # if value of i is 2, the button will be in the right of the tree
+            elif listadaarvore[i] > listadaarvore[i-1]:
+                button.move(700, 300)
+            # if value of i is 3, the button will be in the left of the left of the tree
+            elif listadaarvore[i] < listadaarvore[i-2]:
+                button.move(300, 400)
+            # if value of i is 4, the button will be in the right of the left of the tree
+            elif listadaarvore[i] > listadaarvore[i-2]:
+                button.move(600, 400)
+            # if value of i is 5, the button will be in the left of the right of the tree
+            elif i == 5:
+                button.move(700, 280)
+            # if value of i is 6, the button will be in the right of the right of the tree
+            elif i == 6:
+                button.move(900, 280)
+            # if value of i is 7, the button will be in the left of the left of the left of the tree
+            elif i == 7:
+                button.move(200, 320)
+            # if value of i is 8, the button will be in the right of the left of the left of the tree
+            elif i == 8:
+                button.move(400, 320)
+            # if value of i is 9, the button will be in the left of the right of the left of the tree
+            elif i == 9:
+                button.move(600, 320)
+            # if value of i is 10, the button will be in the right of the right of the left of the tree
+            elif i == 10:
+                button.move(800, 320)
+            # if value of i is 11, the button will be in the left of the left of the right of the tree
+            elif i == 11:
+                button.move(1000, 320)
+            # if value of i is 12, the button will be in the right of the left of the right of the tree
+            elif i == 12:
+                button.move(1200, 320)
+            # if value of i is 13, the button will be in the left of the right of the right of the tree
+            elif i == 13:
+                button.move(1400, 320)
+            # if value of i is 14, the button will be in the right of the right of the right of the tree
+            elif i == 14:
+                button.move(1600, 320)
+            # if value of i is 15, the button will be in the left of the left of the left of the left of the tree
+            elif i == 15:
+                button.move(100, 360)
+            # if value of i is 16, the button will be in the right of the left of the left of the left of the tree
+            elif i == 16:
+                button.move(300, 360)
+
+            button.resize(50, 30)
+            button.show()
+        #|arvore.treeprint(self)
+        
+        
 
 
 
@@ -893,6 +977,7 @@ class janelamain(QMainWindow):
 
 textoparainput = ''
 posicao = 0
+
 fila = Queue()
 pilha = Stack()
 arvore = Tree()
