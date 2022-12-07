@@ -93,7 +93,7 @@ class janela_lista(QWidget):
         if esta_na_lista >= 0:
             msg = QMessageBox()
             msg.setWindowTitle("Elemento encontrado")
-            msg.setText("O elemento está na lista, na posição: "+str(lista.searchandmatch(self.consultar_lista.text())))
+            msg.setText("O elemento está na lista, no índice: "+str(lista.searchandmatch(self.consultar_lista.text())))
             msg.setIcon(QMessageBox.Information)
             msg.exec_()
 
@@ -120,7 +120,7 @@ class janela_lista(QWidget):
         entrada_posicao.resize(80, 30)
         entrada_posicao.setObjectName("entrada_posicao")
         entrada_posicao.setStyleSheet("color: white;")
-        entrada_posicao.setPlaceholderText("Posição")
+        entrada_posicao.setPlaceholderText("Índice")
         entrada_posicao.textChanged.connect(self.onchanged)
 
     # now create a button for remotion (red color with white text)
@@ -146,7 +146,7 @@ class janela_lista(QWidget):
         entrada_remove_posicao.resize(95, 30)
         entrada_remove_posicao.setObjectName("entrada_remove_posicao")
         entrada_remove_posicao.setStyleSheet("color: white;")
-        entrada_remove_posicao.setPlaceholderText("Posição")
+        entrada_remove_posicao.setPlaceholderText("Índice")
         entrada_remove_posicao.textChanged.connect(self.onchanged)
 
     def addbutton_clicked(self):
@@ -157,16 +157,16 @@ class janela_lista(QWidget):
         if texto_para_input == "":
             return
 
-        posicao = self.findChild(QLineEdit, 'entrada_posicao').text()
+        indice = self.findChild(QLineEdit, 'entrada_posicao').text()
         # if there is no text in the input, do nothing
-        if posicao == "":
+        if indice == "":
             return
 
         # if position is not a number, do nothing
-        if not posicao.isnumeric():
+        if not indice.isnumeric():
             return
 
-        lista.insert(int(posicao), texto_para_input)
+        lista.insert(int(indice), texto_para_input)
 
         button = []
 
@@ -180,7 +180,7 @@ class janela_lista(QWidget):
             button.show()
 
         print(lista)
-        print("posicao =", posicao)
+        print("indice =", indice)
 
     def image_black_bmp(self):
         imageblack = QLabel(self)
@@ -220,7 +220,7 @@ class janela_lista(QWidget):
                 button.show()
 
         if posicao_remover != "" and texto_para_input == "":
-            print("removendo por posição")
+            print("removendo por indice")
             print(lista.size())
             # if the position is not a number, do nothing
             if not posicao_remover.isnumeric():
