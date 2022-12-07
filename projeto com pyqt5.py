@@ -787,11 +787,13 @@ class janelaarvore(QWidget):
         buttonremover.setStyleSheet("background-color: red; color: white; font-size: 15px; font-weight: bold;")
         buttonremover.move(730, 50)
         buttonremover.resize(100, 30)
+        buttonremover.clicked.connect(self.buttonremover_clicked)
 
         buttoninordem = QPushButton('In-ordem', self)
         buttoninordem.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
         buttoninordem.move(10, 90)
         buttoninordem.resize(100, 30)
+        buttoninordem.clicked.connect(self.buttoninordem_clicked)
 
         labelpesquisa = QLabel(self)
         labelpesquisa.setText("Pesquisar elemento")
@@ -804,6 +806,7 @@ class janelaarvore(QWidget):
         buttonpesquisa.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
         buttonpesquisa.move(320, 140)
         buttonpesquisa.resize(100, 30)
+        buttonpesquisa.clicked.connect(self.buttonpesquisa_clicked)
 
         self.initUI()
     
@@ -852,6 +855,25 @@ class janelaarvore(QWidget):
         arvore.imprimirarvore()
 
         #self.imageblackbmp()
+
+    def buttonremover_clicked(self):
+        removedaarvore = self.findChild(QLineEdit, "removedaarvore")
+        valor = removedaarvore.text()
+        arvore.delete(valor)
+        print("\n"*10)
+        arvore.imprimirarvore()
+
+        #self.imageblackbmp()
+
+    def buttoninordem_clicked(self):
+        inor = arvore.inorder()
+        print(inor)
+
+    def buttonpesquisa_clicked(self):
+        entradaarvore = self.findChild(QLineEdit, "entradaarvore")
+        valor = entradaarvore.text()
+        pesq = arvore.find(valor)
+        print(pesq)
 
 tamanhomaximodapilha = 19
 class janelapilha(QWidget):
