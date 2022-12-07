@@ -1038,15 +1038,17 @@ class janelamain(QMainWindow):
     def label1(self):
         label1 = QLabel('Visualizador de Estrutura de Dados', self)
         # move to the center top of the window
-        label1.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
-        label1.resize(600, 40)
+        label1.setAlignment(Qt.AlignCenter)
+        #label1.move(100, 10)
+        label1.resize(1000, 50)
         label1.setStyleSheet("background-color: black; color: white; font-weight: bold; font-size: 32px; font-family: Lucida Sans Unicode; font-style: italic")
         label1.show()
 
     def lista(self):
         lista_button = QPushButton('Lista Encadeada', self)
-        lista_button.move(10, 60)
-        lista_button.resize(200, 40)
+        
+        lista_button.move(400, 140)
+        lista_button.resize(300, 50)
         lista_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         lista_button.clicked.connect(self.listaclick)
 
@@ -1056,8 +1058,8 @@ class janelamain(QMainWindow):
 
     def pilha(self):
         pilha_button = QPushButton('Pilha', self)
-        pilha_button.move(10, 110)
-        pilha_button.resize(200, 40)
+        pilha_button.move(400, 200)
+        pilha_button.resize(300, 50)
         pilha_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         pilha_button.clicked.connect(self.pilhaclick)
     
@@ -1067,8 +1069,8 @@ class janelamain(QMainWindow):
 
     def fila(self):
         fila_button = QPushButton('Fila', self)
-        fila_button.move(10, 160)
-        fila_button.resize(200, 40)
+        fila_button.move(400, 260)
+        fila_button.resize(300, 50)
         fila_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         fila_button.clicked.connect(self.filaclick)
 
@@ -1079,8 +1081,8 @@ class janelamain(QMainWindow):
 
     def arvore(self):
         arvore_button = QPushButton('Arvore', self)
-        arvore_button.move(10, 210)
-        arvore_button.resize(200, 40)
+        arvore_button.move(400, 320)
+        arvore_button.resize(300, 50)
         arvore_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         arvore_button.clicked.connect(self.arvoreclick)
     
