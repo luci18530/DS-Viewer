@@ -5,7 +5,7 @@ Grupo : Guilherme Nogueira, Luciano Pereira, Pedro Lucas, Thais Melquiades, Vict
 
 # TODO
 
-Listas OK
-Filas OK
-Pilhas OK
-Árvores OK (CLI only)
+*  Listas OK
+*  Filas OK
+*  Pilhas OK
+*  Árvores OK (CLI only)
