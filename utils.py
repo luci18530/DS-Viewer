@@ -402,15 +402,15 @@ arvore = Tree()
 class janelalista(QWidget):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet("background-color: black;")
+        self.setStyleSheet("background-color: #121212;")
+
         labellista = QLabel(self)
         labellista.setText("Lista Encadeada")
-        labellista.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labellista.setStyleSheet("color: white; font-size: 30px; font-weight: bold;")
         labellista.move(10, 10)
 
         listImage = QLabel(self)
-        listImage.setPixmap(QPixmap("list.svg"))
-        listImage.setStyleSheet("background-color: grey;")
+        listImage.setPixmap(QPixmap("assets/list.png"))
         self.opacity_effect = QGraphicsOpacityEffect()
         self.opacity_effect.setOpacity(0.3)
         listImage.setGraphicsEffect(self.opacity_effect)
@@ -419,18 +419,18 @@ class janelalista(QWidget):
 
         labelentrada = QLabel(self)
         labelentrada.setText("Adicionar elemento")
-        labelentrada.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelentrada.move(10, 40)
+        labelentrada.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelentrada.move(20, 60)
 
         labelremover = QLabel(self)
         labelremover.setText("Remover elemento")
-        labelremover.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelremover.move(460, 40)
+        labelremover.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelremover.move(470, 60)
 
         labelconsutar = QLabel(self)
         labelconsutar.setText("Consultar elemento")
-        labelconsutar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelconsutar.move(10, 90)
+        labelconsutar.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelconsutar.move(20, 140)
 
         self.inputlista()
         self.consultarlista()
@@ -443,7 +443,7 @@ class janelalista(QWidget):
         # add button
         addbutton = QPushButton('Adicionar', self)
         addbutton.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        addbutton.move(320, 50)
+        addbutton.move(330, 90)
         addbutton.resize(100, 30)
         addbutton.clicked.connect(self.addbutton_clicked)
 
@@ -451,21 +451,21 @@ class janelalista(QWidget):
         
     def initUI(self):
         self.setGeometry(10, 30, 1050, 700)
-        self.setWindowTitle('Lista Encadeada')
+        self.setWindowTitle('DS Viewer')
         self.show()
 
     def consultarlista(self):
         self.consultarlista = QLineEdit(self)
-        self.consultarlista.move(10, 120)
-        self.consultarlista.resize(200, 20)
+        self.consultarlista.move(20, 170)
+        self.consultarlista.resize(200, 30)
         self.consultarlista.setObjectName("consultarlista")
-        self.consultarlista.setStyleSheet("background-color: black; color: white; font-size: 15px; font-weight: bold;")
-        self.consultarlista.setPlaceholderText("Digite o elemento a ser consultado")
+        self.consultarlista.setStyleSheet("color: white")
+        self.consultarlista.setPlaceholderText("Valor do elemento")
 
         buttonconsultar = QPushButton('Consultar', self)
         buttonconsultar.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        buttonconsultar.move(220, 120)
-        buttonconsultar.resize(100, 20)
+        buttonconsultar.move(230, 170)
+        buttonconsultar.resize(100, 30)
         buttonconsultar.clicked.connect(self.buttonconsultar_clicked)
 
     def buttonconsultar_clicked(self):
@@ -493,46 +493,46 @@ class janelalista(QWidget):
 
     def inputlista(self):
         entrada = QLineEdit(self)
-        entrada.move(10, 60)
-        entrada.resize(200, 20)
+        entrada.move(20, 90)
+        entrada.resize(200, 30)
         entrada.setObjectName("entrada")
         entrada.setStyleSheet("color: white;")
-        entrada.setPlaceholderText("Digite um valor")
+        entrada.setPlaceholderText("Valor")
         entrada.textChanged.connect(self.onchanged) # Certifica que o texto foi alterado 
 
     def inputlistaposition(self):
         entradaposicao = QLineEdit(self)
-        entradaposicao.move(220, 60)
-        entradaposicao.resize(81, 20)
+        entradaposicao.move(230, 90)
+        entradaposicao.resize(80, 30)
         entradaposicao.setObjectName("entradaposicao")
         entradaposicao.setStyleSheet("color: white;")
-        entradaposicao.setPlaceholderText("Digite a posição")
+        entradaposicao.setPlaceholderText("Posição")
         entradaposicao.textChanged.connect(self.onchanged)
 
     # now create a button for remotion (red color with white text)
     def removedalistabutton(self):
         removedalistabutton = QPushButton('Remover', self)
         removedalistabutton.setStyleSheet("background-color: #FF0000; color: white; font-size: 15px; font-weight: bold;")
-        removedalistabutton.move(780, 50)
+        removedalistabutton.move(790, 90)
         removedalistabutton.resize(100, 30)
         removedalistabutton.clicked.connect(self.removedalistabutton_clicked)
 
     def removedalista(self):
         entradaremove = QLineEdit(self)
-        entradaremove.move(460, 60)
-        entradaremove.resize(200, 20)
+        entradaremove.move(470, 90)
+        entradaremove.resize(200, 30)
         entradaremove.setObjectName("entradaremove")
         entradaremove.setStyleSheet("color: white;")
-        entradaremove.setPlaceholderText("Digite o valor a remover")
+        entradaremove.setPlaceholderText("Valor")
         entradaremove.textChanged.connect(self.onchanged)
 
     def removedalistaposicao(self):
         entradaremoveposicao = QLineEdit(self)
-        entradaremoveposicao.move(670, 60)
-        entradaremoveposicao.resize(95, 20)
+        entradaremoveposicao.move(680, 90)
+        entradaremoveposicao.resize(95, 30)
         entradaremoveposicao.setObjectName("entradaremoveposicao")
         entradaremoveposicao.setStyleSheet("color: white;")
-        entradaremoveposicao.setPlaceholderText("Posição a remover")
+        entradaremoveposicao.setPlaceholderText("Posição")
         entradaremoveposicao.textChanged.connect(self.onchanged)
 
     def addbutton_clicked(self):
@@ -641,15 +641,14 @@ class janelalista(QWidget):
 class janelafila(QWidget):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet("background-color: black;")
+        self.setStyleSheet("background-color: #121212;")
         labelfila = QLabel(self)
         labelfila.setText("Fila")
-        labelfila.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelfila.setStyleSheet("color: white; font-size: 30px; font-weight: bold;")
         labelfila.move(10, 10)
 
         queueImage = QLabel(self)
-        queueImage.setPixmap(QPixmap("queue.svg"))
-        queueImage.setStyleSheet("background-color: grey;")
+        queueImage.setPixmap(QPixmap("assets/queue.png"))
         self.opacity_effect = QGraphicsOpacityEffect()
         self.opacity_effect.setOpacity(0.3)
         queueImage.setGraphicsEffect(self.opacity_effect)
@@ -658,24 +657,24 @@ class janelafila(QWidget):
 
         labelenfileirar = QLabel(self)
         labelenfileirar.setText("Enfileirar elemento")
-        labelenfileirar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelenfileirar.move(10, 40)
+        labelenfileirar.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelenfileirar.move(20, 60)
 
         labelprimeirofila = QLabel(self)
         labelprimeirofila.setText("Primeiro da fila")
-        labelprimeirofila.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelprimeirofila.move(10, 500)
+        labelprimeirofila.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelprimeirofila.move(20, 500)
 
         enqueuebutton = QPushButton('Enfileirar', self)
         enqueuebutton.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        enqueuebutton.move(320, 50)
-        enqueuebutton.resize(100, 30)
+        enqueuebutton.move(40, 130)
+        enqueuebutton.resize(120, 30)
         enqueuebutton.clicked.connect(self.enqueuebutton_clicked)
 
         dequeuebutton = QPushButton('Desenfileirar', self)
         dequeuebutton.setStyleSheet("background-color: red; color: white; font-size: 15px; font-weight: bold;")
-        dequeuebutton.move(320, 90)
-        dequeuebutton.resize(100, 30)
+        dequeuebutton.move(180, 130)
+        dequeuebutton.resize(120, 30)
         dequeuebutton.clicked.connect(self.dequeuebutton_clicked)
 
         self.inputfila()
@@ -688,11 +687,11 @@ class janelafila(QWidget):
 
     def inputfila(self):
         entradafila = QLineEdit(self)
-        entradafila.move(10, 60)
-        entradafila.resize(300, 20)
+        entradafila.move(20, 90)
+        entradafila.resize(300, 30)
         entradafila.setObjectName("entradafila")
         entradafila.setStyleSheet("color: white;")
-        entradafila.setPlaceholderText("Digite o valor")
+        entradafila.setPlaceholderText("Valor")
         
     def enqueuebutton_clicked(self):
         print("enqueue button clicked")
@@ -709,7 +708,7 @@ class janelafila(QWidget):
             # set id for each button
             button.setObjectName(str(i))
             button.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-            button.move(10 + i * 50, 400)  
+            button.move(20 + i * 50, 400)  
             button.resize(50, 30)
             button.show()
 
@@ -717,7 +716,7 @@ class janelafila(QWidget):
         button = QPushButton(str(lastelement), self)
         button.setObjectName("primeirofila")
         button.setStyleSheet("background-color: orange; color: white; font-size: 15px; font-weight: bold;")
-        button.move(10, 530)
+        button.move(20, 530)
         button.resize(50, 30)
         button.show()
 
@@ -732,7 +731,7 @@ class janelafila(QWidget):
             # set id for each button
             button.setObjectName(str(i))
             button.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-            button.move(10 + i * 50, 400)  
+            button.move(20 + i * 50, 400)  
             button.resize(50, 30)
             button.show()
 
@@ -740,14 +739,14 @@ class janelafila(QWidget):
         print("checgou aqui")
         labelprimeirofila = QLabel(self)
         labelprimeirofila.setText("Primeiro da fila")
-        labelprimeirofila.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelprimeirofila.move(10, 500)
+        labelprimeirofila.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelprimeirofila.move(20, 500)
         labelprimeirofila.show()
 
         button = QPushButton(str(lastelement), self)
         button.setObjectName("primeirofila")
         button.setStyleSheet("background-color: orange; color: white; font-size: 15px; font-weight: bold;")
-        button.move(10, 530)
+        button.move(20, 530)
         button.resize(50, 30)
         button.show()
 
@@ -773,8 +772,7 @@ class janelaarvore(QWidget):
         labelarvore.move(10, 10)
 
         treeImage = QLabel(self)
-        treeImage.setPixmap(QPixmap("tree.svg"))
-        treeImage.setStyleSheet("background-color: grey;")
+        treeImage.setPixmap(QPixmap("assets/tree.png"))
         self.opacity_effect = QGraphicsOpacityEffect()
         self.opacity_effect.setOpacity(0.3)
         treeImage.setGraphicsEffect(self.opacity_effect)
@@ -898,15 +896,14 @@ class janelapilha(QWidget):
     def __init__(self):
         super().__init__()
         
-        self.setStyleSheet("background-color: black;")
+        self.setStyleSheet("background-color: #121212;")
         labelpilha = QLabel(self)
         labelpilha.setText("Pilha")
-        labelpilha.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelpilha.setStyleSheet("color: white; font-size: 30px; font-weight: bold;")
         labelpilha.move(10, 10)
 
         stackImage = QLabel(self)
-        stackImage.setPixmap(QPixmap("stack.svg"))
-        stackImage.setStyleSheet("background-color: grey;")
+        stackImage.setPixmap(QPixmap("assets/stack.png"))
         self.opacity_effect = QGraphicsOpacityEffect()
         self.opacity_effect.setOpacity(0.3)
         stackImage.setGraphicsEffect(self.opacity_effect)
@@ -915,25 +912,25 @@ class janelapilha(QWidget):
 
         labeltopopilha = QLabel(self)
         labeltopopilha.setText("Topo da pilha")
-        labeltopopilha.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labeltopopilha.move(200, 100)
+        labeltopopilha.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labeltopopilha.move(200, 130)
 
         labelempilhar = QLabel(self)
         labelempilhar.setText("Empilhar elemento")
-        labelempilhar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
-        labelempilhar.move(10, 40)
+        labelempilhar.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelempilhar.move(20, 60)
 
         self.inputpilha()
 
         buttonempilhar = QPushButton('Empilhar', self)
         buttonempilhar.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        buttonempilhar.move(320, 50)
+        buttonempilhar.move(330, 90)
         buttonempilhar.resize(100, 30)
         buttonempilhar.clicked.connect(self.buttonempilhar_clicked)
 
         buttondesempilhar = QPushButton('Desempilhar', self)
         buttondesempilhar.setStyleSheet("background-color: red; color: white; font-size: 15px; font-weight: bold;")
-        buttondesempilhar.move(430, 50)
+        buttondesempilhar.move(440, 90)
         buttondesempilhar.resize(100, 30)
         buttondesempilhar.clicked.connect(self.buttondesempilhar_clicked)
 
@@ -946,8 +943,8 @@ class janelapilha(QWidget):
 
     def inputpilha(self):
         entradaarvore = QLineEdit(self)
-        entradaarvore.move(10, 60)
-        entradaarvore.resize(300, 20)
+        entradaarvore.move(20, 90)
+        entradaarvore.resize(300, 30)
         entradaarvore.setObjectName("entradapilha")
         entradaarvore.setStyleSheet("color: white;")
         entradaarvore.setPlaceholderText("Digite o valor")
@@ -964,7 +961,6 @@ class janelapilha(QWidget):
         if pilha.size() == tamanhomaximodapilha:
             return
 
-        self.imageblackbmp()
         pilha.push(valor)
         topofpilha = pilha.top()
         print(pilha)
@@ -972,15 +968,22 @@ class janelapilha(QWidget):
         for i in range(pilha.size()):
             buttonpilha = QPushButton(str(pilha.get(i)), self)
             buttonpilha.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-            buttonpilha.move(10, 670 - (i * 30))
+            buttonpilha.move(20, 650 - (i * 30))
             buttonpilha.resize(60, 30)
             buttonpilha.show()
 
         buttontopo = QPushButton(str(topofpilha), self)
         buttontopo.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        buttontopo.move(220, 130)
+        buttontopo.move(235, 180)
         buttontopo.resize(60, 30)
         buttontopo.show()
+
+    def imageblackbmp(self):
+        imageblack = QLabel(self)
+        imageblack.setPixmap(QPixmap("black.png"))
+        imageblack.move(10, 200)
+        imageblack.resize(600, 600)
+        imageblack.show()
 
     def buttondesempilhar_clicked(self):
         pilha.pop()
@@ -990,13 +993,13 @@ class janelapilha(QWidget):
         for i in range(pilha.size()):
             buttonpilha = QPushButton(str(pilha.get(i)), self)
             buttonpilha.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-            buttonpilha.move(10, 670 - (i * 30))
+            buttonpilha.move(20, 650 - (i * 30))
             buttonpilha.resize(60, 30)
             buttonpilha.show()
 
         buttontopo = QPushButton(str(topofpilha), self)
         buttontopo.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
-        buttontopo.move(220, 130)
+        buttontopo.move(235, 180)
         buttontopo.resize(60, 30)
         buttontopo.show()
         
@@ -1004,18 +1007,19 @@ class janelamain(QMainWindow):
     def __init__(self):
         super().__init__()
         # set background color to black
-        self.setStyleSheet("background-color: black;")
+        self.setStyleSheet("background-color: #121212;")
         self.left = 10
         self.top = 30
         self.width = 1050
         self.height = 700
         self.title = 'Estrutura de Dados'
         exit_button = QPushButton('SAIR', self)
-        exit_button.move(1000, 660)
-        exit_button.resize(50, 40)
+        exit_button.move(450, 380)
+        exit_button.resize(150, 50)
         exit_button.setStyleSheet("background-color: red; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         exit_button.clicked.connect(self.close)
 
+        self.computerImg()
         self.label1()
         self.lista()
         self.pilha()
@@ -1029,18 +1033,29 @@ class janelamain(QMainWindow):
         self.show()
 
     def label1(self):
-        label1 = QLabel('Visualizador de Estrutura de Dados', self)
+        label1 = QLabel('Data Structure Viewer', self)
         # move to the center top of the window
         label1.setAlignment(Qt.AlignCenter)
         #label1.move(100, 10)
-        label1.resize(1000, 50)
-        label1.setStyleSheet("background-color: black; color: white; font-weight: bold; font-size: 32px; font-family: Lucida Sans Unicode; font-style: italic")
+        label1.resize(1050, 50)
+        label1.setStyleSheet("background-color: #121212; color: white; font-weight: bold; font-size: 32px; font-family: Lucida Sans Unicode; font-style: italic")
         label1.show()
+
+    def computerImg(self):
+        imgComp = QPixmap('./assets/computer.png')
+        computerImage = QLabel(self)
+        computerImage.setPixmap(imgComp)
+        self.opacity_effect = QGraphicsOpacityEffect()
+        self.opacity_effect.setOpacity(0.3)
+        computerImage.setGraphicsEffect(self.opacity_effect)
+        computerImage.resize(128,128)
+        computerImage.move(900,550)
+        computerImage.show()
 
     def lista(self):
         lista_button = QPushButton('Lista Encadeada', self)
         
-        lista_button.move(400, 140)
+        lista_button.move(375, 140)
         lista_button.resize(300, 50)
         lista_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         lista_button.clicked.connect(self.listaclick)
@@ -1051,7 +1066,7 @@ class janelamain(QMainWindow):
 
     def pilha(self):
         pilha_button = QPushButton('Pilha', self)
-        pilha_button.move(400, 200)
+        pilha_button.move(375, 200)
         pilha_button.resize(300, 50)
         pilha_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         pilha_button.clicked.connect(self.pilhaclick)
@@ -1062,7 +1077,7 @@ class janelamain(QMainWindow):
 
     def fila(self):
         fila_button = QPushButton('Fila', self)
-        fila_button.move(400, 260)
+        fila_button.move(375, 260)
         fila_button.resize(300, 50)
         fila_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         fila_button.clicked.connect(self.filaclick)
@@ -1074,7 +1089,7 @@ class janelamain(QMainWindow):
 
     def arvore(self):
         arvore_button = QPushButton('Arvore', self)
-        arvore_button.move(400, 320)
+        arvore_button.move(375, 320)
         arvore_button.resize(300, 50)
         arvore_button.setStyleSheet("background-color: blue; color: white; font-weight: bold; font-size: 15px; font-family: Lucida Sans Unicode")
         arvore_button.clicked.connect(self.arvoreclick)
