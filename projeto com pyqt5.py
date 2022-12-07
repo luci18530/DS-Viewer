@@ -8,6 +8,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.Qt import *
 import sys
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
 
 
 # Define some colors
@@ -119,6 +122,15 @@ class Stack:
     def size(self):
         return len(self.items)
 
+    def top(self):
+        if not self.isEmpty():
+            return self.items[-1]
+
+    def get(self, index):
+        if not self.isEmpty():
+            return self.items[index]
+          
+
     def __str__(self):
         return str(self.items)
     
@@ -134,21 +146,52 @@ class Node(object):
 
     def insert(self, data):
         ''' For inserting the node '''
-        if self.data:
-            if data < self.data:
-                if self.leftChild is None:
-                    self.leftChild = Node(data)
-                else:
-                    self.leftChild.insert(data)
-            elif data > self.data:
-                if self.rightChild is None:
-                    self.rightChild = Node(data)
-                else:
-                    self.rightChild.insert(data)
+        if self.data == data:
+            return False
+        
+        elif data < self.data:
+            if self.leftChild:
+                return self.leftChild.insert(data)
+            else:
+                self.leftChild = Node(data)
+                return True
+
         else:
-            self.data = data
+            if self.rightChild:
+                return self.rightChild.insert(data)
+            else:
+                self.rightChild = Node(data)
+                return True 
+
+    # PRINT THE TREE IN TERMINAL WITH LEVELS AND LINES
+    def printTree(self, level=0):
+        # no children
+        if self.rightChild is None and self.leftChild is None:
+            print('\t' * level, self.data)
+
+        # only right child
+        if self.rightChild is not None and self.leftChild is None:
+            print('\t' * level, self.data)
+            print('\t' * level, '    \\')
+            self.rightChild.printTree(level+1)
+
+        # only left child
+        if self.rightChild is None and self.leftChild is not None:
+            print('\t' * level, self.data)
+            print('\t' * level, '    /')
+            self.leftChild.printTree(level+1)
+
+        # both children
+        if self.rightChild and self.leftChild:
+            self.rightChild.printTree(level+1)
+            print('\t' * level, '    /')
+            print('\t' * level, self.data)
+            print('\t' * level, '    \\')   
+            self.leftChild.printTree(level+1)
 
         
+
+            
 
     def minValueNode(self, node):
         current = node
@@ -260,13 +303,30 @@ class Node(object):
         else:
             return self.leftChild.size() + 1 + self.rightChild.size()
 
-    # Recursive method used to draw the tree in the GUI
-
+    
     def __str__(self) -> str:
         return str(self.data)
 
     def __repr__(self) -> str:
         return str(self.data)
+
+    # print the tree in terminal, using levels, lines and branches
+    def print_tree(self, level=0):
+        if self.rightChild:
+            self.rightChild.print_tree(level + 1)
+        print(' ' * 4 * level + '->', self.data)
+        if self.leftChild:
+            self.leftChild.print_tree(level + 1)
+
+    # PRINT THIS FUCKING TREE IN TERMINAL PLEASE 
+    def imprimirarvore(self, nivel=0):
+        if self.rightChild:
+            self.rightChild.imprimirarvore(nivel+1)
+            print('\t' * nivel, '    /')
+        print('\t' * nivel, self.data)
+        if self.leftChild:
+            print('\t' * nivel, '    \\')
+            self.leftChild.imprimirarvore(nivel+1)
 
         
 
@@ -280,6 +340,10 @@ class Tree(object):
             return []
         else:
             return self.root.recursive_sort([])
+
+    def imprimirarvore(self):
+        if self.root is not None:
+            self.root.imprimirarvore()
 
     def insert(self, data):
         if self.root:
@@ -328,37 +392,10 @@ class Tree(object):
         if self.root is not None:
             return self.root.size()
 
-    # tree print function, get the widget
-    def treeprint(self, widget):
+    # print the tree in terminal, using levels, lines and branches
+    def printtree(self):
         if self.root is not None:
-            return self.printTree(self.root, widget)
-
-    def printTree(self, currentnode, widget, level = 0, position = None):
-        if currentnode is not None:
-            
-            self.printTree(currentnode.rightChild, widget, level + 1, 'R')
-            if position == 'R':
-                print('    ' * level, ' / ', currentnode.data)
-                buttonarvore = QPushButton(currentnode.data, widget)
-                buttonarvore.setStyleSheet("background-color: blue; color: white; font-size: 10px; font-weight: bold;")
-                buttonarvore.move(10 + level*50,350 - 200/(level+1))
-                buttonarvore.resize(50, 30)
-                buttonarvore.show()
-            elif position == 'L':
-                print('    ' * level, ' \\ ', currentnode.data)
-                buttonarvore = QPushButton (currentnode.data, widget)
-                buttonarvore.setStyleSheet("background-color: blue; color: white; font-size: 10px; font-weight: bold;")
-                buttonarvore.move(10 + level*50,350 + 200/(level+1))
-                buttonarvore.resize(50, 30)
-                buttonarvore.show()
-            else:
-                print(currentnode.data)
-                buttonarvore = QPushButton (currentnode.data , widget)
-                buttonarvore.setStyleSheet("background-color: blue; color: white; font-size: 10px; font-weight: bold;")
-                buttonarvore.move(10,350)
-                buttonarvore.resize(50, 30)
-                buttonarvore.show()
-            self.printTree(currentnode.leftChild, widget, level + 1, 'L')
+            self.root.print_tree()
             
             
         
@@ -719,6 +756,7 @@ class janelaarvore(QWidget):
     def __init__(self):
         super().__init__()
         arvore = Tree()
+        
         self.setStyleSheet("background-color: black;")
         labelarvore = QLabel(self)
         labelarvore.setText("Árvore")
@@ -801,7 +839,7 @@ class janelaarvore(QWidget):
     def imageblackbmp(self):
         imageblack = QLabel(self)
         imageblack.setPixmap(QPixmap("black.bmp"))
-        imageblack.move(10, 200)
+        imageblack.move(10, 180)
         imageblack.resize(600, 600)
         imageblack.show()
 
@@ -810,90 +848,115 @@ class janelaarvore(QWidget):
         valor = entradaarvore.text()
         listadaarvore.append(valor)
         arvore.insert(valor)
-        # SORT LISTADAARVORE
-        #listadaarvore.sort()
-        print(listadaarvore)
-        # print the value of arvore in text
-        print(str(arvore.root))
-        # print size
-        print("size: ",arvore.size)
-        # TREE PRINTER
-        print("Tree:")
+        print("\n"*10)
+        arvore.imprimirarvore()
+
+        #self.imageblackbmp()
+
+tamanhomaximodapilha = 19
+class janelapilha(QWidget):
+    def __init__(self):
+        super().__init__()
+        
+        self.setStyleSheet("background-color: black;")
+        labelpilha = QLabel(self)
+        labelpilha.setText("Pilha")
+        labelpilha.setStyleSheet("color: white; font-size: 20px; font-weight: bold;")
+        labelpilha.move(10, 10)
+
+        labeltopopilha = QLabel(self)
+        labeltopopilha.setText("Topo da pilha")
+        labeltopopilha.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labeltopopilha.move(200, 100)
+
+        labelempilhar = QLabel(self)
+        labelempilhar.setText("Empilhar elemento")
+        labelempilhar.setStyleSheet("color: white; font-size: 15px; font-weight: bold;")
+        labelempilhar.move(10, 40)
+
+        self.inputpilha()
+
+        buttonempilhar = QPushButton('Empilhar', self)
+        buttonempilhar.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttonempilhar.move(320, 50)
+        buttonempilhar.resize(100, 30)
+        buttonempilhar.clicked.connect(self.buttonempilhar_clicked)
+
+        buttondesempilhar = QPushButton('Desempilhar', self)
+        buttondesempilhar.setStyleSheet("background-color: red; color: white; font-size: 15px; font-weight: bold;")
+        buttondesempilhar.move(430, 50)
+        buttondesempilhar.resize(100, 30)
+        buttondesempilhar.clicked.connect(self.buttondesempilhar_clicked)
+
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry(10, 30, 1050, 700)
+        self.setWindowTitle('Pilha')
+        self.show() 
+
+    def inputpilha(self):
+        entradaarvore = QLineEdit(self)
+        entradaarvore.move(10, 60)
+        entradaarvore.resize(300, 20)
+        entradaarvore.setObjectName("entradapilha")
+        entradaarvore.setStyleSheet("color: white;")
+        entradaarvore.setPlaceholderText("Digite o valor")
+
+    def buttonempilhar_clicked(self):
+        
+        entradapilha = self.findChild(QLineEdit, "entradapilha")
+        valor = entradapilha.text()
+
+        if valor == "":
+            return
+
+        # if the stack is full (size == tamanhomaximodapilha) return
+        if pilha.size() == tamanhomaximodapilha:
+            return
+
         self.imageblackbmp()
+        pilha.push(valor)
+        topofpilha = pilha.top()
+        print(pilha)
 
-        for i in range (0, len(listadaarvore)):
-            button = QPushButton(str(listadaarvore[i]), self)
-            button.setObjectName("arvore")
-            button.setStyleSheet("background-color: orange; color: white; font-size: 15px; font-weight: bold;")
-            # if value of i is 0, the button will be in the top of the tree
-            if i == 0:
-                button.move(500, 200)
-            # if value of i is 1, the button will be in the left of the tree
-            elif listadaarvore[i] < listadaarvore[i-1]:
-                button.move(300, 300)
-            # if value of i is 2, the button will be in the right of the tree
-            elif listadaarvore[i] > listadaarvore[i-1]:
-                button.move(700, 300)
-            # if value of i is 3, the button will be in the left of the left of the tree
-            elif listadaarvore[i] < listadaarvore[i-2]:
-                button.move(300, 400)
-            # if value of i is 4, the button will be in the right of the left of the tree
-            elif listadaarvore[i] > listadaarvore[i-2]:
-                button.move(600, 400)
-            # if value of i is 5, the button will be in the left of the right of the tree
-            elif i == 5:
-                button.move(700, 280)
-            # if value of i is 6, the button will be in the right of the right of the tree
-            elif i == 6:
-                button.move(900, 280)
-            # if value of i is 7, the button will be in the left of the left of the left of the tree
-            elif i == 7:
-                button.move(200, 320)
-            # if value of i is 8, the button will be in the right of the left of the left of the tree
-            elif i == 8:
-                button.move(400, 320)
-            # if value of i is 9, the button will be in the left of the right of the left of the tree
-            elif i == 9:
-                button.move(600, 320)
-            # if value of i is 10, the button will be in the right of the right of the left of the tree
-            elif i == 10:
-                button.move(800, 320)
-            # if value of i is 11, the button will be in the left of the left of the right of the tree
-            elif i == 11:
-                button.move(1000, 320)
-            # if value of i is 12, the button will be in the right of the left of the right of the tree
-            elif i == 12:
-                button.move(1200, 320)
-            # if value of i is 13, the button will be in the left of the right of the right of the tree
-            elif i == 13:
-                button.move(1400, 320)
-            # if value of i is 14, the button will be in the right of the right of the right of the tree
-            elif i == 14:
-                button.move(1600, 320)
-            # if value of i is 15, the button will be in the left of the left of the left of the left of the tree
-            elif i == 15:
-                button.move(100, 360)
-            # if value of i is 16, the button will be in the right of the left of the left of the left of the tree
-            elif i == 16:
-                button.move(300, 360)
+        for i in range(pilha.size()):
+            buttonpilha = QPushButton(str(pilha.get(i)), self)
+            buttonpilha.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+            buttonpilha.move(10, 670 - (i * 30))
+            buttonpilha.resize(60, 30)
+            buttonpilha.show()
 
-            button.resize(50, 30)
-            button.show()
-        #|arvore.treeprint(self)
-        
-        
+        buttontopo = QPushButton(str(topofpilha), self)
+        buttontopo.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttontopo.move(220, 130)
+        buttontopo.resize(60, 30)
+        buttontopo.show()
 
+    def imageblackbmp(self):
+        imageblack = QLabel(self)
+        imageblack.setPixmap(QPixmap("black.bmp"))
+        imageblack.move(10, 130)
+        imageblack.resize(600, 600)
+        imageblack.show()
 
+    def buttondesempilhar_clicked(self):
+        pilha.pop()
+        print(pilha)
+        topofpilha = pilha.top()
+        self.imageblackbmp()
+        for i in range(pilha.size()):
+            buttonpilha = QPushButton(str(pilha.get(i)), self)
+            buttonpilha.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+            buttonpilha.move(10, 670 - (i * 30))
+            buttonpilha.resize(60, 30)
+            buttonpilha.show()
 
-
-
-        
-
-    def printTreeinButton(self, level = 0):
-        # print all the elements in the arvore
-        gfg = 1
-
-
+        buttontopo = QPushButton(str(topofpilha), self)
+        buttontopo.setStyleSheet("background-color: #008A00; color: white; font-size: 15px; font-weight: bold;")
+        buttontopo.move(220, 130)
+        buttontopo.resize(60, 30)
+        buttontopo.show()
         
 class janelamain(QMainWindow):
     def __init__(self):
@@ -951,6 +1014,7 @@ class janelamain(QMainWindow):
     
     def pilhaclick(self):
         print('Pilha')
+        self.pilha = janelapilha()
 
     def fila(self):
         fila_button = QPushButton('Fila', self)
@@ -975,12 +1039,19 @@ class janelamain(QMainWindow):
         self.arvore = janelaarvore()
         print('Arvore')
 
+
+
+
 textoparainput = ''
 posicao = 0
 
 fila = Queue()
 pilha = Stack()
 arvore = Tree()
+
+
+
+
 application = PyQt5.QtWidgets.QApplication(sys.argv)
 janela = janelamain()
 sys.exit(application.exec_())
