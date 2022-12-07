@@ -3,6 +3,8 @@
 # Grupo: Guilherme Nogueira, Luciano Pereira, Pedro Lucas, Thais Melquiades, Vitoria Grisi
 from utils import *
 
+
+
 textoparainput = ''
 application = PyQt5.QtWidgets.QApplication(sys.argv)
 janela = janelamain()
