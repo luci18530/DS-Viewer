@@ -982,13 +982,6 @@ class janelapilha(QWidget):
         buttontopo.resize(60, 30)
         buttontopo.show()
 
-    def imageblackbmp(self):
-        imageblack = QLabel(self)
-        imageblack.setPixmap(QPixmap("black.bmp"))
-        imageblack.move(10, 130)
-        imageblack.resize(600, 600)
-        imageblack.show()
-
     def buttondesempilhar_clicked(self):
         pilha.pop()
         print(pilha)
