@@ -4,7 +4,7 @@
 
 <br>
     <div align="center">
-    <img src="https://github.com/luci18530/PROJETOED/blob/main/assets/telaInicial.png" width = "350" height = "350" tilte = "Imagem tela incial">
+    <img src="https://github.com/luci18530/PROJETOED/blob/main/assets/telaInicial.png"  tilte = "Imagem tela incial">
     </div>
 </br>
 
