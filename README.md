@@ -15,4 +15,4 @@
 - [Guilherme Nogueira](https://github.com/guigasauro)
 - [Victória Grisi](https://github.com/voczie)
 - [Thaís Melquiades](https://github.com/tmelquiades)
-- [Pedro Lucas Valeriano de Mira](https://github.com/JovemPedr0)
+- [Pedro Lucas](https://github.com/JovemPedr0)
