@@ -8,7 +8,7 @@
     </div>
 </br>
 
-<div> Este projeto, desenvolvido em grupo, objetiva a obtenção da última nota na disciplina de Estrutura de Dados, da Universidade Federal da Paraíba <a href = http://ci.ufpb.br/>(UFPB)</a> .</div>
+<div> Este projeto, desenvolvido em grupo, objetiva a obtenção da última nota na disciplina de Estrutura de Dados, da Universidade Federal da Paraíba <a href = http://ci.ufpb.br/>(UFPB)</a>.</div>
 
 ## Colaboradores
 - [Luciano Pereira](https://github.com/luci18530)
